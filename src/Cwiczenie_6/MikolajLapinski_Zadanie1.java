@@ -1,4 +1,4 @@
-package pl.vistula.helloworldlapinski;
+package Cwiczenie_6;
 
 import java.util.Scanner;
 
