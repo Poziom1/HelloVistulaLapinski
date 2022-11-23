@@ -12,7 +12,7 @@ class Animal {
     String [] age= new String[100];
     String weight;
     static  void eat(){
-        String food;
+        System.out.println("Hej");
 
     }
     static void detVoice(){
