@@ -41,5 +41,5 @@ class Fish extends Animal{
     String species;
 }
 class Blowfish extends Fish{
-
+    String nadmuchanie;
 }
