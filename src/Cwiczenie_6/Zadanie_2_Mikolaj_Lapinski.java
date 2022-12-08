@@ -1,9 +1,15 @@
 package Cwiczenie_6;
 
-import javax.swing.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Zadanie_2_Mikolaj_Lapinski {
+    static AnimalBehavior Pies = new Dog();
+    static AnimalMove PiesMove = new Dog();
+    static AnimalBehavior Gołąb = new Pigeon();
+    static AnimalMove GołąbMove = new Pigeon();
+    static AnimalBehavior Rozdymka = new Blowfish();
+    static AnimalMove RozdymkaMove = new Blowfish();
     static Scanner scanner = new Scanner(System.in);
     static int wybur;
     static int p,g,r, j= 0;
@@ -79,6 +85,8 @@ public class Zadanie_2_Mikolaj_Lapinski {
                     j=scanner.nextInt();
                     for (int licz = 0;j>licz;licz++){
                         Dog.Zapisz(p);
+                        Dog.tab[p] [7]= Dog.sleep[p] = Pies.sleep();
+                        Dog.tab[p][8]= PiesMove.move();
                         Dog.odczytPojedynczy(p);
                         p++;
                     }
@@ -122,6 +130,8 @@ public class Zadanie_2_Mikolaj_Lapinski {
                         j=scanner.nextInt();
                         for (int licz = 0;j>licz;licz++){
                             Pigeon.Zapisz(g);
+                            Pigeon.tab[g][8] = GołąbMove.move();
+                            Pigeon.tab[g][7] = Pigeon.sleep[g]= Gołąb.sleep();
                             Pigeon.odczytPojedynczy(g);
                             g++;
                         }
@@ -164,6 +174,8 @@ public class Zadanie_2_Mikolaj_Lapinski {
                         j=scanner.nextInt();
                         for (int licz = 0;j>licz;licz++){
                             Blowfish.Zapisz(r);
+                            Blowfish.tab[r][8]= RozdymkaMove.move();
+                            Blowfish.tab[r][7]=Blowfish.sleep[r]= Rozdymka.sleep();
                             Blowfish.odczytPojedynczy(r);
                             r++;
                         }
@@ -181,8 +193,24 @@ public class Zadanie_2_Mikolaj_Lapinski {
 
     }
 }
-class Animal {
+interface AnimalBehavior{
+    String sleep();
+
+
+}
+interface AnimalMove{
+    String move();
+}
+interface AnimalName{
+    static String name(){
+
+    return null;}
+}
+class Animal implements AnimalMove, AnimalName{
     static Scanner scanner = new Scanner(System.in);
+    static String tab[][] = new String[100][9];
+    static String [] move = new String[100];
+    static String []sleep = new String[100];
     static String []name = new String[100];
     static String [] age= new String[100];
     static String [] weight = new String[100];
@@ -194,8 +222,15 @@ class Animal {
 
     }
 
+    @Override
+    public String move() {
+        return null;
+    }
+    public static String name(){
+        return "Tu powinna być jakaś funkcja gatName, ale na wcześniejszych zajęciach jej nie robiliśmy. ";
+    }
 }
-class Mammal extends Animal{
+class Mammal extends Animal implements AnimalMove{
     static String [] IloscNug = new String[100];
     static String jedzenie [] = new String[100];
     static void pies( int i){
@@ -203,17 +238,19 @@ class Mammal extends Animal{
         IloscNug[i] = scanner.next();
     }
 }
-class Dog extends Mammal {
+class Dog extends Mammal implements AnimalBehavior,AnimalMove {
     static String [] Breed = new String[100];
 
 
-    static void imie( int i){
+    static void imie(int i){
         System.out.println("Napisz imie zwierzaka: ");
+
         name[i] = scanner.next();
+
     }
     static void wiek( int i){
         System.out.println("Wiek zwierzędzia: ");
-        age[i]= scanner.next();
+         age[i]= scanner.next();
     }
     static void wysokosc( int i){
         System.out.println("Napisz wysokość zwierzaka: ");
@@ -225,43 +262,59 @@ class Dog extends Mammal {
     }
     static void rasa( int i){
         System.out.println("Wpisz rasę: ");
-        Breed [i] = scanner.next();
+         Breed [i] = scanner.next();
 
     }
 
     static void Zapisz(int i){
         System.out.println("Nowy pies");
+        tab[i][0]=(i+1)+") ";
         imie(i);
+        tab[i][1] = name[i];
         wiek(i);
+        tab[i][2] = age[i];
         rasa(i);
+        tab[i][3]=Breed[i];
         wysokosc(i);
+        tab[i][4]= weight[i];
         eat(i);
+        tab[i][5] = jedzenie[i];
         pies(i);
+        tab[i][6] = IloscNug[i];
     }
     static void odczytPojedynczy( int j){
-        System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+Breed [j]+" "+weight[j]+" "+jedzenie [j]+" "+IloscNug[j]);
+        System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+Breed [j]+" "+weight[j]+" "+jedzenie [j]+" "+IloscNug[j]+" "+sleep[j]);
     }
     static void odczyt(int i){
         for (int j = 0; i>j;j++){
-            System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+Breed [j]+" "+weight[j]+" "+jedzenie [j]+" "+IloscNug[j]);
+            System.out.println(Arrays.toString(tab[j]));
         }
 
     }
     static void odczyt(int i,int j){
         if (i>=j){
             for (int k = 0; j>k;k++){
-                System.out.println((k+1)+") "+name[k]+" "+age[k]+" "+Breed [k]+" "+weight[k]+" "+jedzenie [k]+" "+IloscNug[k]);
+                System.out.println(Arrays.toString(tab[k]));
             }
         }else {
             for (int k = 0; i>k;k++){
-                System.out.println((k+1)+") "+name[k]+" "+age[k]+" "+Breed [k]+" "+weight[k]+" "+jedzenie [k]+" "+IloscNug[k]);
+                System.out.println(Arrays.toString(tab[k]));
             }
             System.out.println("Nie ma wiecej zarejestrowanych psów.");
         }
     }
 
+
+    @Override
+    public String sleep() {
+        System.out.println("Napisz ile śpi zwierzak: ");
+        return scanner.next();
+    }
+    public String move(int i){
+        return tab[i][8]="Dog run on four paws.";
+    }
 }
-class Bird extends Animal{
+class Bird extends Animal implements AnimalMove{
     static String jedzenie [] = new String[100];
     static String [] featherColor = new String[100];
     static void kolorPiur( int i){
@@ -270,7 +323,7 @@ class Bird extends Animal{
     }
 
 }
-class Pigeon extends Bird{
+class Pigeon extends Bird implements AnimalBehavior, AnimalMove{
     static String [] species = new String[100];
     static void wysokosc( int i){
         System.out.println("Napisz wysokość zwierzaka: ");
@@ -294,19 +347,27 @@ class Pigeon extends Bird{
     }
     static void Zapisz(int i){
         System.out.println("Nowy gołąb");
+        tab[i][0]=(i+1)+"";
         imie(i);
+        tab[i][1] = name[i];
         wiek(i);
+        tab[i][2] = age[i];
         wysokosc(i);
+        tab[i][3]=weight[i];
         gatunek(i);
+        tab[i][4]=species[i];
         kolorPiur(i);
+        tab[i][5]=featherColor[i];
         eat(i);
+        tab[i][6]=jedzenie[i];
+
     }
     static void odczytPojedynczy(int j){
-        System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+species [j]+" "+weight[j]+" "+featherColor[j]+" "+jedzenie [j]);
+        System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+species [j]+" "+weight[j]+" "+featherColor[j]+" "+jedzenie [j]+" "+sleep[j]);
     }
     static void odczyt(int i){
         for (int j = 0; i>j;j++){
-            System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+species [j]+" "+weight[j]+" "+featherColor[j]+" "+jedzenie [j]);
+            System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+species [j]+" "+weight[j]+" "+featherColor[j]+" "+jedzenie [j]+" "+sleep[j]);
         }
 
     }
@@ -322,12 +383,20 @@ class Pigeon extends Bird{
             System.out.println("Nie ma wiecej zarejestrowanych psów.");
         }
     }
+
+    @Override
+    public String sleep() {
+        return scanner.next();
+    }
+    public String move(int i){
+        return "Pigeon is fly.";
+    }
 }
-class Fish extends Animal{
+class Fish extends Animal implements AnimalMove{
     static String[] species = new String[100];
     static String[] jedzenie = new String[100];
 }
-class Blowfish extends Fish{
+class Blowfish extends Fish implements AnimalBehavior, AnimalMove{
     static String[] nadmuchanie = new String[100];
     static void wysokosc( int i){
         System.out.println("Napisz wysokość zwierzaka: ");
@@ -355,12 +424,19 @@ class Blowfish extends Fish{
     }
     static void Zapisz(int i){
         System.out.println("Nowy rozdymka");
+        tab[i][0]=(i+1)+"";
         imie(i);
+        tab[i][1]=name[i];
         wiek(i);
+        tab[i][2]=age[i];
         wysokosc(i);
+        tab[i][3]=weight[i];
         gatunek(i);
+        tab[i][4]=species[i];
         eat(i);
+        tab[i][5] = jedzenie[i];
         nadmuchiwanie(i);
+        tab[i][6] = nadmuchanie[i];
     }
     static void odczytPojedynczy(int j){
         System.out.println((j+1)+") "+name[j]+" "+age[j]+" "+species [j]+" "+weight[j]+" "+jedzenie [j]+" "+nadmuchanie[j]);
@@ -382,5 +458,13 @@ class Blowfish extends Fish{
             }
             System.out.println("Nie ma wiecej zarejestrowanych psów.");
         }
+    }
+
+    @Override
+    public String sleep() {
+        return scanner.next();
+    }
+    public String move(){
+        return null;
     }
 }

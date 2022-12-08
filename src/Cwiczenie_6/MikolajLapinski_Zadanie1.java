@@ -53,6 +53,7 @@ interface Wynagrodzenie{
     }
 
 }
+
 class Kadra extends Osoba implements Wynagrodzenie{
 
 
